@@ -125,7 +125,7 @@ def main():
 
             adversarial_nogi_loss_real = criterion2(output,real_target) #Discriminatorの出力結果と正解ラベルとのBCELoss
 
-            loss_D = adversarial_nogi_loss_real
+            loss_D = adversarial_nogi_loss_real+adversarial_nogi_loss_fake
             loss_D.backward(retain_graph = True) # 誤差逆伝播
 
             optimizerD.step()  # Discriminatorのパラメータ更新
