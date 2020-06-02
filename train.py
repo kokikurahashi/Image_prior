@@ -12,9 +12,9 @@ from mpl_toolkits.mplot3d import axes3d
 from torchvision.datasets import MNIST
 import os
 import math
-from Mydatasets import Mydatasets
-from Generator import Generator
-from Discriminator import Discriminator
+from Utilities.Mydatasets import Mydatasets
+from models.Generator import Generator
+from models.Discriminator import Discriminator
 import theano
 import pylab
 import matplotlib.pyplot as plt
