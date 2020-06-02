@@ -136,16 +136,16 @@ def main():
             
             i=i+1
             print(i, len(dataloader),loss_G,loss_D)     
-    path = "loss_G"                 
-    f = open(path)
-    with open(path) as f:
-      print(loss_list_g)
-    f.close()
-    path = "loss_D"                 
-    f = open(path)
-    with open(path) as f:
-      print(loss_list_d)
-    f.close()
+    
+    path = "loss_G.txt"                 
+    with open(path, mode='w') as f:
+      for loss in loss_list_g:
+        f.write("{}".format(loss))
+
+    path = "loss_D.txt"                 
+    with open(path, mode='w') as f:
+      for loss in loss_list_d:
+        f.write("{}".format(loss))
 
 
     if train == True:
