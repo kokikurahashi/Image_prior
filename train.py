@@ -128,7 +128,7 @@ def main():
 
             loss_D = adversarial_nogi_loss_real+adversarial_nogi_loss_fake
             loss_D.backward(retain_graph = True) # 誤差逆伝播
-            loss_list_g.append(loss_D)
+            loss_list_d.append(loss_D)
             optimizerD.step()  # Discriminatorのパラメータ更新
           
 
@@ -140,12 +140,12 @@ def main():
     path = "loss_G.txt"                 
     with open(path, mode='w') as f:
       for loss in loss_list_g:
-        f.write("{}".format(loss))
+        f.write("{}\n".format(loss))
 
     path = "loss_D.txt"                 
     with open(path, mode='w') as f:
       for loss in loss_list_d:
-        f.write("{}".format(loss))
+        f.write("{}\n".format(loss))
 
 
     if train == True:
