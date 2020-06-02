@@ -23,13 +23,14 @@ import numpy as np
 from torch.nn.utils.spectral_norm import spectral_norm
 from theano.tensor.shared_randomstreams import RandomStreams
 beta1 = 0.5
-num_epochs = 10000 #エポック数
+num_epochs = 100 #エポック数
 batch_size = 1 #バッチサイズ
 learning_rate = 1e-4 #学習率
 train =True#学習を行うかどうかのフラグ
 pretrained =False#事前に学習したモデルがあるならそれを使う
 save_img =True#ネットワークによる生成画像を保存するかどうかのフラグ
-
+loss_list_g = []
+loss_list_d = []
 def to_img(x):
     x = 0.5 * (x + 1)
     x = x.clamp(0, 1)
@@ -108,7 +109,7 @@ def main():
             loss_G = adversarial_loss_fake
             
             loss_G.backward(retain_graph = True) # 誤差逆伝播
-            
+            loss_list_g.append(loss_G)
             optimizerG.step()  # Generatorのパラメータ更新
 
             
@@ -127,15 +128,26 @@ def main():
 
             loss_D = adversarial_nogi_loss_real+adversarial_nogi_loss_fake
             loss_D.backward(retain_graph = True) # 誤差逆伝播
-
+            loss_list_g.append(loss_D)
             optimizerD.step()  # Discriminatorのパラメータ更新
           
 
             fake_image = G(real_image) #生成画像
             
             i=i+1
-            print(i, len(dataloader),loss_G,loss_D)                 
-        
+            print(i, len(dataloader),loss_G,loss_D)     
+    path = "loss_G"                 
+    f = open(path)
+    with open(path) as f:
+      print(loss_list_g)
+    f.close()
+    path = "loss_D"                 
+    f = open(path)
+    with open(path) as f:
+      print(loss_list_d)
+    f.close()
+
+
     if train == True:
             #モデルを保存
             torch.save(G.state_dict(), './drive/My Drive/result_Image_prior/image_prior_G.pth')
